@@ -1,0 +1,70 @@
+from PySide6 import QtWidgets, QtCore
+from PySide6.QtCore import Qt
+import maya.OpenMayaUI as omui
+from shiboken6 import wrapInstance
+
+
+def get_main_maya_win():
+    main_win = omui.MQtUtil.mainWindow()
+    return wrapInstance(int(main_win), QtWidgets.QWidget)
+
+
+class FenceGUI(QtWidgets.QDialog):
+
+
+    def __init__(self):
+        super().__init__(parent=get_main_maya_win())
+        self.setWindowTitle("Fence GUI")
+        self.create_layout()
+        self.resize(300, 300)
+
+
+    def create_layout(self):
+        self.main_lay = QtWidgets.QVBoxLayout()
+        self._form_UI()
+        self.create_btn = QtWidgets.QPushButton("Create")
+        self.main_lay.addWidget(self.create_btn)
+        self.setLayout(self.main_lay)
+
+
+    def _form_UI(self):
+        self.form_lay = QtWidgets.QFormLayout()
+        self._segment_UI()
+        self._spacing_UI()
+        self._curve_UI()
+        self._worn_UI()
+        self.main_lay.addLayout(self.form_lay)
+
+
+    def _segment_UI(self):    
+        self.segment_amt_spinbx = QtWidgets.QSpinBox()
+        self.segment_amt_spinbx.setValue(3)
+        self.segment_amt_spinbx.setMinimum(1)
+        self.form_lay.addRow("Fence Segments", self.segment_amt_spinbx)
+
+
+    def _spacing_UI(self):
+        self.spacing_dspinbx = QtWidgets.QDoubleSpinBox()
+        self.spacing_dspinbx.setValue(2)
+        self.spacing_dspinbx.setMinimum(.5)
+        self.form_lay.addRow("Distance Between Posts", self.spacing_dspinbx)
+        self.fence_height_slider = QtWidgets.QSlider(Qt.Orientation.Horizontal)
+        self.fence_height_slider.setRange(1,25)
+        self.fence_height_slider.setFixedWidth(300)
+        self.form_lay.addRow("Fence Height", self.fence_height_slider)
+
+
+    def _curve_UI(self):
+        self.curve_height_dspinbx = QtWidgets.QDoubleSpinBox()
+        self.curve_height_dspinbx.setValue(0)
+        self.form_lay.addRow("Curve Height", self.curve_height_dspinbx)
+        self.curve_width_dspinbx = QtWidgets.QDoubleSpinBox()
+        self.curve_width_dspinbx.setValue(0)
+        self.form_lay.addRow("Curve Width", self.curve_width_dspinbx)
+
+
+    def _worn_UI(self):
+        self.worn_checkbx = QtWidgets.QCheckBox()
+        self.worn_checkbx.setChecked(False)
+        self.form_lay.addRow("Enable Missing Panels", self.worn_checkbx)
+
