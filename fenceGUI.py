@@ -16,7 +16,7 @@ class FenceGUI(QtWidgets.QDialog):
         super().__init__(parent=get_main_maya_win())
         self.setWindowTitle("Fence GUI")
         self.create_layout()
-        self.resize(300, 300)
+        self.resize(800, 800)
 
 
     def create_layout(self):
