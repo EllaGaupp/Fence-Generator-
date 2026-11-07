@@ -48,14 +48,14 @@ class FenceGUI(QtWidgets.QDialog):
 
     def _spacing_UI(self):
         self.spacing_dspinbx = QtWidgets.QDoubleSpinBox()
-        self.spacing_dspinbx.setValue(2)
+        self.spacing_dspinbx.setValue(.5)
         self.spacing_dspinbx.setMinimum(0)
         self.form_lay.addRow("Distance Between Posts", self.spacing_dspinbx)
         self.fence_height_slider = QtWidgets.QSlider(Qt.Orientation.Horizontal)
         self.fence_height_slider.setRange(3,25)
         self.fence_height_slider.setFixedWidth(300)
         self.form_lay.addRow("Fence Height", self.fence_height_slider)
-        self.slider_label = QtWidgets.QLabel("", self)
+        self.slider_label = QtWidgets.QLabel("3", self)
         self.fence_height_slider.valueChanged.connect(self.update_label)
         self.form_lay.addRow("Value:",self.slider_label)
 
