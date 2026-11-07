@@ -7,12 +7,12 @@ class FenceGen():
         self.fencePanels_amount = 5
         self.fence_width = .5
         self.fence_depth = .1
-        self.fence_spacing = .1
+        self.fence_spacing = 0
 
     def create(self):
         for i in range(self.fencePanels_amount):
             panel = self.create_panel()
-            spacing = (self.fence_width+self.fence_spacing)*i
+            spacing = (self.fence_spacing+self.fence_width)*i
             cmds.setAttr(f"{panel}.translateX", spacing)
         self.create_bars()
 
