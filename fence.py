@@ -23,13 +23,14 @@ class FenceGen():
 
     def create_bars(self):
         bar_width = ((self.fencePanels_amount*self.fence_width)+(self.fencePanels_amount*self.fence_spacing))
-        bar_center = ((self.fencePanels_amount*self.fence_width)+((self.fencePanels_amount-2)*self.fence_spacing))
+        bar_center = ((self.fencePanels_amount*self.fence_width)+((self.fencePanels_amount-1)*self.fence_spacing))
         self.bar_obj, self.bar_node = cmds.polyCube(name="Bar1", height=self.fence_width, depth=self.fence_depth, width= bar_width)
         cmds.setAttr(f"{self.bar_obj}.translateY", self.fence_height-(self.fence_width/2)-.5)
         cmds.setAttr(f"{self.bar_obj}.translateZ", self.fence_depth)
-        cmds.setAttr(f"{self.bar_obj}.translateX", (bar_center/2))
+        cmds.setAttr(f"{self.bar_obj}.translateX", (bar_center/2.0))
         self.bar2_obj, self.bar2_node = cmds.polyCube(name="Bar2", height=self.fence_width, depth=self.fence_depth, width= bar_width)
         cmds.setAttr(f"{self.bar2_obj}.translateY", self.fence_width/2+.5)
         cmds.setAttr(f"{self.bar2_obj}.translateZ", self.fence_depth)
-        cmds.setAttr(f"{self.bar2_obj}.translateX", (bar_center/2))
-        return self.bars_obj
+        cmds.setAttr(f"{self.bar2_obj}.translateX", (bar_center/2.0))
+        self.bars_grp = cmds.group([self.bar_obj, self.bar2_obj], name="bars_GRP")        
+        return self.bars_grp
