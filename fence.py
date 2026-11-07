@@ -1,0 +1,29 @@
+import maya.cmds as cmds
+
+class FenceGen():
+
+    def __init__(self):
+        self.fence_height = 3
+        self.fencePanels_amount = 2
+        self.fence_width = .5
+        self.fence_depth = .1
+
+    @property
+    def create(self):
+        self.create_panel()
+        self.create_bars()
+
+    def create_panel(self):
+        self.panel_obj, self.panel_node = cmds.polyCube(name="Panel", height=self.fence_height, depth=self.fence_depth, width=self.fence_width)
+        cmds.setAttr(f"{self.panel_obj}.translateY", self.fence_height/2)
+        return self.panel_obj
+
+    def create_bars(self):
+        self.bar_obj, self.bar_node = cmds.polyCube(name="Bar", height=self.fence_width, depth=self.fence_depth, width=self.fencePanels_amount*self.fence_width)
+        cmds.setAttr(f"{self.bar_obj}.translateY", self.fence_width/2+.5)
+        cmds.setAttr(f"{self.bar_obj}.translateZ", self.fence_depth)
+        self.bar2_obj, self.bar2_node = cmds.polyCube(name="Bar2", height=self.fence_width, depth=self.fence_depth, width=self.fencePanels_amount*self.fence_width)
+        cmds.setAttr(f"{self.bar2_obj}.translateY", self.fence_height-.5)
+        cmds.setAttr(f"{self.bar2_obj}.translateZ", self.fence_depth)
+        self.bars_grp = cmds.group([self.bar_obj, self.bar2_obj], name="bars_GRP")
+        return self.bars_grp

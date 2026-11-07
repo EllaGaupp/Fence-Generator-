@@ -3,6 +3,8 @@ from PySide6.QtCore import Qt
 import maya.OpenMayaUI as omui
 from shiboken6 import wrapInstance
 
+from fence import FenceGen
+
 
 def get_main_maya_win():
     main_win = omui.MQtUtil.mainWindow()
@@ -14,13 +16,14 @@ class FenceGUI(QtWidgets.QDialog):
 
     def __init__(self):
         super().__init__(parent=get_main_maya_win())
+        self.fence_generator = FenceGen()
         self.setWindowTitle("Fence GUI")
         self.create_layout()
-        self.resize(800, 800)
-
+        self.create_connections()
 
     def create_layout(self):
         self.main_lay = QtWidgets.QVBoxLayout()
+        self.resize(300, 300)
         self._form_UI()
         self.create_btn = QtWidgets.QPushButton("Create")
         self.main_lay.addWidget(self.create_btn)
@@ -29,18 +32,18 @@ class FenceGUI(QtWidgets.QDialog):
 
     def _form_UI(self):
         self.form_lay = QtWidgets.QFormLayout()
-        self._segment_UI()
+        self._panel_UI()
         self._spacing_UI()
         self._curve_UI()
         self._worn_UI()
         self.main_lay.addLayout(self.form_lay)
 
 
-    def _segment_UI(self):    
-        self.segment_amt_spinbx = QtWidgets.QSpinBox()
-        self.segment_amt_spinbx.setValue(3)
-        self.segment_amt_spinbx.setMinimum(1)
-        self.form_lay.addRow("Fence Segments", self.segment_amt_spinbx)
+    def _panel_UI(self):    
+        self.panel_amt_spinbx = QtWidgets.QSpinBox()
+        self.panel_amt_spinbx.setValue(3)
+        self.panel_amt_spinbx.setMinimum(1)
+        self.form_lay.addRow("Fence Panels", self.panel_amt_spinbx)
 
 
     def _spacing_UI(self):
@@ -68,3 +71,9 @@ class FenceGUI(QtWidgets.QDialog):
         self.worn_checkbx.setChecked(False)
         self.form_lay.addRow("Enable Missing Panels", self.worn_checkbx)
 
+    def create_connections(self):
+        self.create_btn.clicked.connect(self.create)
+
+    @QtCore.Slot()
+    def create(self):
+        self.fence_generator.create()
