@@ -34,7 +34,7 @@ class FenceGUI(QtWidgets.QDialog):
         self.form_lay = QtWidgets.QFormLayout()
         self._panel_UI()
         self._spacing_UI()
-        self._curve_UI()
+        self._mixedHeight_UI()
         self._worn_UI()
         self.main_lay.addLayout(self.form_lay)
 
@@ -59,14 +59,10 @@ class FenceGUI(QtWidgets.QDialog):
         self.fence_height_slider.valueChanged.connect(self.update_label)
         self.form_lay.addRow("Value:",self.slider_label)
 
-    def _curve_UI(self):
-        self.curve_height_dspinbx = QtWidgets.QDoubleSpinBox()
-        self.curve_height_dspinbx.setValue(0)
-        self.form_lay.addRow("Curve Height", self.curve_height_dspinbx)
-        self.curve_width_dspinbx = QtWidgets.QDoubleSpinBox()
-        self.curve_width_dspinbx.setValue(0)
-        self.form_lay.addRow("Curve Width", self.curve_width_dspinbx)
-
+    def _mixedHeight_UI(self):
+        self.mixedHeight_checkbx = QtWidgets.QCheckBox()
+        self.mixedHeight_checkbx.setChecked(False)
+        self.form_lay.addRow("Enable Height Variation", self.mixedHeight_checkbx)
 
     def _worn_UI(self):
         self.worn_checkbx = QtWidgets.QCheckBox()
