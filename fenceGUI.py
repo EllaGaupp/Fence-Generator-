@@ -42,7 +42,7 @@ class FenceGUI(QtWidgets.QDialog):
     def _panel_UI(self):    
         self.panel_amt_spinbx = QtWidgets.QSpinBox()
         self.panel_amt_spinbx.setValue(3)
-        self.panel_amt_spinbx.setMinimum(1)
+        self.panel_amt_spinbx.setMinimum(2)
         self.form_lay.addRow("Fence Panels", self.panel_amt_spinbx)
 
 
@@ -76,4 +76,5 @@ class FenceGUI(QtWidgets.QDialog):
 
     @QtCore.Slot()
     def create(self):
+        self.fence_generator.fence_height = self.fence_height_slider.value()
         self.fence_generator.create()
