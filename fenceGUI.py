@@ -42,7 +42,7 @@ class FenceGUI(QtWidgets.QDialog):
     def _panel_UI(self):    
         self.panel_amt_spinbx = QtWidgets.QSpinBox()
         self.panel_amt_spinbx.setValue(3)
-        self.panel_amt_spinbx.setMinimum(2)
+        self.panel_amt_spinbx.setMinimum(3)
         self.form_lay.addRow("Fence Panels", self.panel_amt_spinbx)
 
 
@@ -52,10 +52,12 @@ class FenceGUI(QtWidgets.QDialog):
         self.spacing_dspinbx.setMinimum(0)
         self.form_lay.addRow("Distance Between Posts", self.spacing_dspinbx)
         self.fence_height_slider = QtWidgets.QSlider(Qt.Orientation.Horizontal)
-        self.fence_height_slider.setRange(1,25)
+        self.fence_height_slider.setRange(3,25)
         self.fence_height_slider.setFixedWidth(300)
         self.form_lay.addRow("Fence Height", self.fence_height_slider)
-
+        self.slider_label = QtWidgets.QLabel("", self)
+        self.fence_height_slider.valueChanged.connect(self.update_label)
+        self.form_lay.addRow("Value:",self.slider_label)
 
     def _curve_UI(self):
         self.curve_height_dspinbx = QtWidgets.QDoubleSpinBox()
@@ -70,6 +72,9 @@ class FenceGUI(QtWidgets.QDialog):
         self.worn_checkbx = QtWidgets.QCheckBox()
         self.worn_checkbx.setChecked(False)
         self.form_lay.addRow("Enable Missing Panels", self.worn_checkbx)
+
+    def update_label(self, value):
+        self.slider_label.setText(f"{value}")
 
     def create_connections(self):
         self.create_btn.clicked.connect(self.create)
