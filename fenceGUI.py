@@ -34,8 +34,8 @@ class FenceGUI(QtWidgets.QDialog):
         self.form_lay = QtWidgets.QFormLayout()
         self._panel_UI()
         self._spacing_UI()
-        self._mixedHeight_UI()
-        self._worn_UI()
+        self._heightVar_UI()
+        self._missing_UI()
         self.main_lay.addLayout(self.form_lay)
 
 
@@ -62,31 +62,31 @@ class FenceGUI(QtWidgets.QDialog):
         self.fence_height_slider.valueChanged.connect(self.update_label)
         self.form_lay.addRow("Value:",self.slider_label)
 
-    def _mixedHeight_UI(self):
-        self.mixedHeight_checkbx = QtWidgets.QCheckBox()
-        self.mixedHeight_checkbx.setChecked(False)
-        self.form_lay.addRow("Enable Height Variation", self.mixedHeight_checkbx)
+    def _heightVar_UI(self):
+        self.heightVar_checkbx = QtWidgets.QCheckBox()
+        self.heightVar_checkbx.setChecked(False)
+        self.form_lay.addRow("Enable Height Variation", self.heightVar_checkbx)
 
-    def _worn_UI(self):
-        self.worn_checkbx = QtWidgets.QCheckBox()
-        self.worn_checkbx.setChecked(False)
-        self.form_lay.addRow("Enable Missing Panels", self.worn_checkbx)
+    def _missing_UI(self):
+        self.missing_checkbx = QtWidgets.QCheckBox()
+        self.missing_checkbx.setChecked(False)
+        self.form_lay.addRow("Enable Missing Panels", self.missing_checkbx)
 
     def update_label(self, value):
         self.slider_label.setText(f"{value}")
 
     def create_connections(self):
-        self.worn_checkbx.toggled.connect(self.missingToggle)
-        self.mixedHeight_checkbx.toggled.connect(self.heightVarToggle)
+        self.missing_checkbx.toggled.connect(self.missingToggle)
+        self.heightVar_checkbx.toggled.connect(self.heightVarToggle)
         self.create_btn.clicked.connect(self.create)
 
     @QtCore.Slot()
     def missingToggle(self):
-        self.fence_generator.missing = self.worn_checkbx.isChecked()
+        self.fence_generator.missing = self.missing_checkbx.isChecked()
 
     @QtCore.Slot()
     def heightVarToggle(self):
-        self.fence_generator.height_random = self.mixedHeight_checkbx.isChecked()
+        self.fence_generator.height_random = self.heightVar_checkbx.isChecked()
     
     @QtCore.Slot()
     def create(self):
