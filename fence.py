@@ -11,22 +11,30 @@ class FenceGen():
         self.fence_spacing = 0.0
         self.height_random = False
         self.rand_height = 0.0
+        self.missing = False
 
     def create(self):
         for i in range(self.fencePanels_amount):
-            if self.height_random == True:
-                var_amount = (self.fence_height*.1)
-                self.rand_height = random.uniform((self.fence_height-var_amount), (self.fence_height+var_amount))
-                panel = self.create_panel()
-                spacing = (self.fence_spacing+self.fence_width)*i
-                cmds.setAttr(f"{panel}.translateX", spacing)
+            if self.height_random:
+                self.random_height()
             else:
                 self.rand_height = self.fence_height
-                panel = self.create_panel()
-                spacing = (self.fence_spacing+self.fence_width)*i
-                cmds.setAttr(f"{panel}.translateX", spacing)
+
+            if self.missing and self.missing_panel():
+                continue
+                            
+            panel = self.create_panel()
+            spacing = (self.fence_spacing+self.fence_width)*i
+            cmds.setAttr(f"{panel}.translateX", spacing)
         self.create_bars()
 
+    def random_height(self):
+        var_amount = (self.fence_height*.1)
+        self.rand_height = random.uniform((self.fence_height-var_amount), (self.fence_height+var_amount))
+
+    def missing_panel(self):
+        return random.randint(1,6) == random.randint(1,6)
+    
     def create_panel(self):
         self.panel_obj, self.panel_node = cmds.polyCube(name="Panel1", height=self.rand_height, depth=self.fence_depth, width=self.fence_width)
         cmds.setAttr(f"{self.panel_obj}.translateY", self.rand_height/2)

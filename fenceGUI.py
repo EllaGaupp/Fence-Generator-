@@ -73,11 +73,16 @@ class FenceGUI(QtWidgets.QDialog):
         self.slider_label.setText(f"{value}")
 
     def create_connections(self):
+        self.worn_checkbx.toggled.connect(self.missingToggle)
         self.mixedHeight_checkbx.toggled.connect(self.heightVarToggle)
         self.create_btn.clicked.connect(self.create)
 
     @QtCore.Slot()
-    def heightVarToggle(self, checked):
+    def missingToggle(self):
+        self.fence_generator.missing = self.worn_checkbx.isChecked()
+
+    @QtCore.Slot()
+    def heightVarToggle(self):
         self.fence_generator.height_random = self.mixedHeight_checkbx.isChecked()
     
     @QtCore.Slot()
