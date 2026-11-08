@@ -47,10 +47,13 @@ class FenceGUI(QtWidgets.QDialog):
 
 
     def _spacing_UI(self):
+        self.panel_width_dspinbx = QtWidgets.QDoubleSpinBox()
+        self.panel_width_dspinbx.setValue(.5)
+        self.panel_width_dspinbx.setMinimum(.5)
+        self.form_lay.addRow("Panel Width", self.panel_width_dspinbx)
         self.spacing_dspinbx = QtWidgets.QDoubleSpinBox()
         self.spacing_dspinbx.setValue(.5)
-        self.spacing_dspinbx.setMinimum(0)
-        self.form_lay.addRow("Distance Between Posts", self.spacing_dspinbx)
+        self.form_lay.addRow("Distance Between Panels", self.spacing_dspinbx)
         self.fence_height_slider = QtWidgets.QSlider(Qt.Orientation.Horizontal)
         self.fence_height_slider.setRange(3,25)
         self.fence_height_slider.setFixedWidth(300)
@@ -87,6 +90,7 @@ class FenceGUI(QtWidgets.QDialog):
     
     @QtCore.Slot()
     def create(self):
+        self.fence_generator.fence_width = self.panel_width_dspinbx.value()
         self.fence_generator.fence_spacing = self.spacing_dspinbx.value()
         self.fence_generator.fencePanels_amount = self.panel_amt_spinbx.value()
         self.fence_generator.fence_height = self.fence_height_slider.value()
