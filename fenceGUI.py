@@ -17,7 +17,7 @@ class FenceGUI(QtWidgets.QDialog):
     def __init__(self):
         super().__init__(parent=get_main_maya_win())
         self.fence_generator = FenceGen()
-        self.setWindowTitle("Fence GUI")
+        self.setWindowTitle("Fence Generator")
         self.create_layout()
         self.create_connections()
 
@@ -73,8 +73,13 @@ class FenceGUI(QtWidgets.QDialog):
         self.slider_label.setText(f"{value}")
 
     def create_connections(self):
+        self.mixedHeight_checkbx.toggled.connect(self.heightVarToggle)
         self.create_btn.clicked.connect(self.create)
 
+    @QtCore.Slot()
+    def heightVarToggle(self, checked):
+        self.fence_generator.height_random = self.mixedHeight_checkbx.isChecked()
+    
     @QtCore.Slot()
     def create(self):
         self.fence_generator.fence_spacing = self.spacing_dspinbx.value()
